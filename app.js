@@ -587,6 +587,18 @@ function downloadTemplate() {
 
 // ─── Print Report ────────────────────────────────────────────────────────────
 
+/**
+ * printReport() — Monochrome-Optimized Print Function
+ * Generates a letter-size Net Worth Report with full compatibility for monochrome laser printers
+ * (HP LaserJet, Brother, Canon, etc.).
+ * 
+ * MONOCHROME ADAPTATIONS:
+ * - All color specifications use grayscale values only (#000, #333, #555, #777, #999, #ccc, #ddd, #f5f5f5, white)
+ * - No RGB, HEX color codes for red/green or color-dependent styling
+ * - Positive/negative indicators (MoM changes) use distinct grayscale tones (#333 for positive, #000 for negative)
+ * - High contrast black/white design ensures sharp text and legible charts on monochrome devices
+ * - Dithering patterns in images render as professional halftones on laser printers
+ */
 function printReport() {
   const latest = snapshots.length > 0 ? snapshots[snapshots.length - 1] : null;
   const prev   = snapshots.length > 1 ? snapshots[snapshots.length - 2] : null;
@@ -605,7 +617,9 @@ function printReport() {
       const ch    = k.value - k.prev;
       const pct   = k.prev !== 0 ? (ch / k.prev) * 100 : 0;
       const sign  = ch >= 0 ? '+' : '';
-      const color = ch >= 0 ? 'green' : 'red';
+      // MONOCHROME: Use grayscale colors instead of 'green'/'red' for laser printer compatibility
+      // #333 (dark gray) for positive change; #000 (black) for negative change for strong contrast
+      const color = ch >= 0 ? '#333333' : '#000000';
       changeHtml = `<div class="pr-kpi-change" style="color:${color}">${sign}${pct.toFixed(1)}% MoM</div>`;
     }
     return `<div class="pr-kpi"><div class="pr-kpi-label">${k.label}</div>
@@ -613,6 +627,7 @@ function printReport() {
   }).join('');
 
   // Render print-specific line chart off-screen: only Net Worth total, black text
+  // MONOCHROME: Chart uses pure black (#000) and light gray (0.06 opacity) for crisp print output
   const offscreen = document.createElement('div');
   offscreen.style.cssText = 'position:fixed;left:-9999px;top:0;visibility:hidden';
   document.body.appendChild(offscreen);
@@ -630,7 +645,8 @@ function printReport() {
         datasets: [{
           label: 'Net Worth',
           data: snapshots.map(s => s.total),
-          borderColor: '#000', backgroundColor: 'rgba(0,0,0,0.06)',
+          // MONOCHROME: Pure black line (#000) with light gray fill (6% opacity) for monochrome legibility
+          borderColor: '#000000', backgroundColor: 'rgba(0,0,0,0.06)',
           fill: true, tension: 0.3, pointRadius: 3, borderWidth: 2
         }]
       },
@@ -638,8 +654,9 @@ function printReport() {
         responsive: false, animation: { duration: 0 },
         plugins: { legend: { display: false } },
         scales: {
-          x: { grid: { color: '#ddd' }, ticks: { color: '#000', font: { size: 10 }, maxRotation: 45 } },
-          y: { grid: { color: '#ddd' }, ticks: { color: '#000', font: { size: 10 }, callback: v => fmtShort(v) } }
+          // MONOCHROME: All axis text and grids use black/gray for laser printer clarity
+          x: { grid: { color: '#dddddd' }, ticks: { color: '#000000', font: { size: 10 }, maxRotation: 45 } },
+          y: { grid: { color: '#dddddd' }, ticks: { color: '#000000', font: { size: 10 }, callback: v => fmtShort(v) } }
         }
       }
     });
@@ -649,11 +666,12 @@ function printReport() {
 
   document.body.removeChild(offscreen);
 
-  const lineHtml = lineImg ? `<img src="${lineImg}" alt="Net Worth Chart">` : '<div style="padding:40px;text-align:center;color:#999;font-size:11px">No data</div>';
+  // MONOCHROME: No-data message uses medium gray (#999) for reduced prominence
+  const lineHtml = lineImg ? `<img src="${lineImg}" alt="Net Worth Chart">` : '<div style="padding:40px;text-align:center;color:#999999;font-size:11px">No data</div>';
 
   const recent = [...snapshots].reverse().slice(0, 12);
   const rowsHtml = recent.length === 0
-    ? '<tr><td colspan="7" style="text-align:center;color:#999">No data</td></tr>'
+    ? '<tr><td colspan="7" style="text-align:center;color:#999999">No data</td></tr>'
     : recent.map(snap => {
         const idx  = snapshots.findIndex(s => s.id === snap.id);
         const p    = snapshots[idx - 1];
@@ -662,7 +680,8 @@ function printReport() {
           const ch    = snap.total - p.total;
           const pct   = p.total !== 0 ? (ch / p.total) * 100 : 0;
           const sign  = ch >= 0 ? '+' : '';
-          const color = ch >= 0 ? 'green' : 'red';
+          // MONOCHROME: Use distinct grayscale tones: dark gray (#333) for gains, black (#000) for losses
+          const color = ch >= 0 ? '#333333' : '#000000';
           momCell = `<span style="color:${color}">${sign}${pct.toFixed(2)}%</span>`;
         }
         return `<tr>
