@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Net Worth Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header no-print">
+    <div class="header-brand">
+      <div class="brand-icon">NW</div>
+      <span class="brand-name">Net Worth Tracker</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn-outline" onclick="printReport()">&#x1F5A8; Print</button>
+      <button class="btn-outline" onclick="downloadTemplate()">&#x1F4CB; Template</button>
+      <button class="btn-outline" onclick="exportData()">&#x2B06; Export</button>
+      <button class="btn-outline" onclick="openPasteModal()">&#x1F4E5; Import Data</button>
+      <button class="btn-primary" onclick="openAddModal()">+ Add Snapshot</button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="container no-print">
+
+    <!-- Total Net Worth Card -->
+    <div class="total-card">
+      <div class="total-card-label">
+        <span class="trend-icon">&#x1F4C8;</span>
+        <span>Total Net Worth</span>
+      </div>
+      <div class="total-amount" id="totalNetWorth">$0</div>
+      <div class="total-date" id="totalDate">As of No data yet</div>
+      <div class="total-mom" id="totalMoM"></div>
+    </div>
+
+    <!-- Category Cards -->
+    <div class="category-grid">
+      <div class="category-card">
+        <div class="category-header">
+          <div class="category-icon cash-icon">&#x1F3E6;</div>
+          <span class="category-name">Cash Equivalents</span>
+        </div>
+        <div class="category-value" id="cashValue">$0</div>
+        <div class="category-footer">
+          <span class="portfolio-pct" id="cashPct">0.0% of portfolio</span>
+          <span class="mom-badge" id="cashMoM"></span>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="category-header">
+          <div class="category-icon taxable-icon">&#x1F4C8;</div>
+          <span class="category-name">Taxable Investments</span>
+        </div>
+        <div class="category-value" id="taxableValue">$0</div>
+        <div class="category-footer">
+          <span class="portfolio-pct" id="taxablePct">0.0% of portfolio</span>
+          <span class="mom-badge" id="taxableMoM"></span>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="category-header">
+          <div class="category-icon retirement-icon">&#x1F331;</div>
+          <span class="category-name">Retirement Investments</span>
+        </div>
+        <div class="category-value" id="retirementValue">$0</div>
+        <div class="category-footer">
+          <span class="portfolio-pct" id="retirementPct">0.0% of portfolio</span>
+          <span class="mom-badge" id="retirementMoM"></span>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="category-header">
+          <div class="category-icon realestate-icon">&#x1F3E0;</div>
+          <span class="category-name">Real Estate</span>
+        </div>
+        <div class="category-value" id="realEstateValue">$0</div>
+        <div class="category-footer">
+          <span class="portfolio-pct" id="realEstatePct">0.0% of portfolio</span>
+          <span class="mom-badge" id="realEstateMoM"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+      <div class="chart-card chart-large">
+        <h3>Net Worth Over Time</h3>
+        <div class="chart-container">
+          <canvas id="lineChart"></canvas>
+          <div class="chart-empty" id="lineChartEmpty">Add snapshots to see your history</div>
+        </div>
+      </div>
+      <div class="chart-card chart-small">
+        <h3>Allocation</h3>
+        <div class="chart-container">
+          <canvas id="allocationChart"></canvas>
+          <div class="chart-empty" id="allocationChartEmpty">No data yet</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Snapshot History (collapsible) -->
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection('snapshotHistory', 'snapshotHistoryToggle')">
+        <h3>Snapshot History</h3>
+        <div class="section-header-actions">
+          <button class="btn-danger-sm" onclick="clearAllData(event)">&#x1F5D1; Clear All</button>
+          <button class="collapse-btn" id="snapshotHistoryToggle">&#x25B2; Collapse</button>
+        </div>
+      </div>
+      <div id="snapshotHistory" class="section-content">
+        <div id="snapshotTable">
+          <div class="empty-state">No snapshots yet. Add your first snapshot!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Patch Notes (collapsible, collapsed by default) -->
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection('patchNotes', 'patchNotesToggle')">
+        <h3>Patch Notes</h3>
+        <button class="collapse-btn" id="patchNotesToggle">&#x25BC; Expand</button>
+      </div>
+      <div id="patchNotes" class="section-content" style="display:none">
+        <div class="patch-notes-content">
+          <div class="patch-version">
+            <h4>v2.4.0 &mdash; Print Report Improvements</h4>
+            <ul>
+              <li>Snapshot history on print report expanded from last 5 to last 12 months</li>
+              <li>Net Worth Over Time chart now shows only the total net worth line (category lines removed) for cleaner print output</li>
+              <li>All chart text (axis labels, legend) renders in black on the printed report</li>
+              <li>Net Worth Over Time chart takes its own full-width row; Allocation chart sits on a separate row below it</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
