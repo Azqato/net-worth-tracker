@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Net Worth Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header no-print">
+    <div class="header-brand">
+      <div class="brand-icon">NW</div>
+      <span class="brand-name">Net Worth Tracker</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn-outline" onclick="printReport()">&#x1F5A8; Print</button>
+      <button class="btn-outline" onclick="downloadTemplate()">&#x1F4CB; Template</button>
+      <button class="btn-outline" onclick="exportData()">&#x2B06; Export</button>
+      <button class="btn-outline" onclick="openPasteModal()">&#x1F4E5; Import Data</button>
+      <button class="btn-primary" onclick="openAddModal()">+ Add Snapshot</button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="container no-print">
+
+    <!-- Total Net Worth Card -->
+    <div class="total-card">
+      <div class="total-card-label">
+        <span class="trend-icon">&#x1F4C8;</span>
+        <span>Total Net Worth</span>
+      </div>
+      <div class="total-amount" id="totalNetWorth">$0</div>
+      <div class="total-date" id="totalDate">As of No data yet</div>
+      <div class="total-mom" id="totalMoM"></div>
+    </div>
+
+    <!-- Category Cards -->
+    <div class="category-grid">
+      <div class="category-card">
+        <div class="category-header">
+          <div class="category-icon cash-icon">&#x1F3E6;</div>
+          <span class="category-name">Cash Equivalents</span>
+        </div>
+        <div class="category-value" id="cashValue">$0</div>
+        <div class="category-footer">
+          <span class="portfolio-pct" id="cashPct">0.0% of portfolio</span>
+          <span class="mom-badge" id="cashMoM"></span>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="category-header">
+          <div class="category-icon taxable-icon">&#x1F4C8;</div>
+          <span class="category-name">Taxable Investments</span>
+        </div>
+        <div class="category-value" id="taxableValue">$0</div>
+        <div class="category-footer">
+          <span class="portfolio-pct" id="taxablePct">0.0% of portfolio</span>
+          <span class="mom-badge" id="taxableMoM"></span>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="category-header">
+          <div class="category-icon retirement-icon">&#x1F331;</div>
+          <span class="category-name">Retirement Investments</span>
+        </div>
+        <div class="category-value" id="retirementValue">$0</div>
+        <div class="category-footer">
+          <span class="portfolio-pct" id="retirementPct">0.0% of portfolio</span>
+          <span class="mom-badge" id="retirementMoM"></span>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="category-header">
+          <div class="category-icon realestate-icon">&#x1F3E0;</div>
+          <span class="category-name">Real Estate</span>
+        </div>
+        <div class="category-value" id="realEstateValue">$0</div>
+        <div class="category-footer">
+          <span class="portfolio-pct" id="realEstatePct">0.0% of portfolio</span>
+          <span class="mom-badge" id="realEstateMoM"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+      <div class="chart-card chart-large">
+        <h3>Net Worth Over Time</h3>
+        <div class="chart-container">
+          <canvas id="lineChart"></canvas>
+          <div class="chart-empty" id="lineChartEmpty">Add snapshots to see your history</div>
+        </div>
+      </div>
+      <div class="chart-card chart-small">
+        <h3>Allocation</h3>
+        <div class="chart-container">
+          <canvas id="allocationChart"></canvas>
+          <div class="chart-empty" id="allocationChartEmpty">No data yet</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Snapshot History (collapsible) -->
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection('snapshotHistory', 'snapshotHistoryToggle')">
+        <h3>Snapshot History</h3>
+        <div class="section-header-actions">
+          <button class="btn-danger-sm" onclick="clearAllData(event)">&#x1F5D1; Clear All</button>
+          <button class="collapse-btn" id="snapshotHistoryToggle">&#x25B2; Collapse</button>
+        </div>
+      </div>
+      <div id="snapshotHistory" class="section-content">
+        <div id="snapshotTable">
+          <div class="empty-state">No snapshots yet. Add your first snapshot!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Patch Notes (collapsible, collapsed by default) -->
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection('patchNotes', 'patchNotesToggle')">
+        <h3>Patch Notes</h3>
+        <button class="collapse-btn" id="patchNotesToggle">&#x25BC; Expand</button>
+      </div>
+      <div id="patchNotes" class="section-content" style="display:none">
+        <div class="patch-notes-content">
+          <div class="patch-version">
+            <h4>v2.4.0 &mdash; Print Report Improvements</h4>
+            <ul>
+              <li>Snapshot history on print report expanded from last 5 to last 12 months</li>
+              <li>Net Worth Over Time chart now shows only the total net worth line (category lines removed) for cleaner print output</li>
+              <li>All chart text (axis labels, legend) renders in black on the printed report</li>
+              <li>Net Worth Over Time chart takes its own full-width row; Allocation chart sits on a separate row below it</li>
+            </ul>
+          </div>
+          <div class="patch-version">
+            <h4>v2.3.0 &mdash; Clear All Data</h4>
+            <ul>
+              <li>Added Clear All button to the Snapshot History header to delete all snapshots at once</li>
+              <li>Confirmation prompt required before data is removed</li>
+            </ul>
+          </div>
+          <div class="patch-version">
+            <h4>v2.2.0 &mdash; Simplified Column Format</h4>
+            <ul>
+              <li>Template and import now use condensed column headers: Date, Net Worth, Cash, Investments, Retirement, Real Estate</li>
+              <li>Date column uses M/D/YYYY format (e.g. 1/1/2022) matching standard spreadsheet conventions</li>
+              <li>Currency formatting ($143,719) applied to example row in template</li>
+            </ul>
+          </div>
+          <div class="patch-version">
+            <h4>v2.1.0 &mdash; Excel Import</h4>
+            <ul>
+              <li>Import Data button now accepts an Excel (.xlsx) file instead of raw JSON</li>
+              <li>File is parsed using the same column layout as the template</li>
+              <li>Rows with missing or malformed dates are automatically skipped</li>
+            </ul>
+          </div>
+          <div class="patch-version">
+            <h4>v2.0.0 &mdash; Allocation Chart Labels</h4>
+            <ul>
+              <li>Allocation chart legend now shows percentage inline next to each category (e.g., "Cash (5%)") &mdash; no hover required</li>
+              <li>Legend labels always reflect live allocation percentages</li>
+            </ul>
+          </div>
+          <div class="patch-version">
+            <h4>v1.4.0 &mdash; Print &amp; PDF Report</h4>
+            <ul>
+              <li>Upgraded print function produces a clean 8.5&times;11 letter-portrait PDF report</li>
+              <li>Report includes: NET WORTH REPORT header, 5-metric KPI grid, charts side-by-side (60/40), recent 5-snapshot history table</li>
+              <li>Dedicated <code>@media print</code> CSS layer forces light mode and hides all UI chrome</li>
+              <li>Chart images captured via Canvas API for accurate print fidelity</li>
+            </ul>
+          </div>
+          <div class="patch-version">
+            <h4>v1.3.0 &mdash; Collapsible History &amp; Print Preview</h4>
+            <ul>
+              <li>Snapshot History section now has a collapse/expand toggle button</li>
+              <li>Patch Notes section retains its collapse/expand toggle</li>
+              <li>Print button triggers formatted report layout</li>
+            </ul>
+          </div>
+          <div class="patch-version">
+            <h4>v1.2.0 &mdash; Excel Template &amp; MoM Indicators</h4>
+            <ul>
+              <li>Download Excel (.xlsx) template with pre-formatted fields for all four categories</li>
+              <li>Instructions tab included in template workbook</li>
+              <li>Month-over-month percentage change badges added to all four category cards</li>
+              <li>MoM change displayed on Total Net Worth card as well</li>
+            </ul>
+          </div>
+          <div class="patch-version">
+            <h4>v1.1.0 &mdash; Chart Enhancements &amp; Allocation Fix</h4>
+            <ul>
+              <li>Hover tooltips on all charts now show both dollar value and percentage of portfolio</li>
+              <li>Fixed allocation percentage calculations &mdash; now correctly computed from latest snapshot total</li>
+              <li>Line chart shows all five series (Net Worth + 4 categories) with category percentages in tooltips</li>
+            </ul>
+          </div>
+          <div class="patch-version">
+            <h4>v1.0.0 &mdash; Initial Release</h4>
+            <ul>
+              <li>Net worth tracking across four categories: Cash Equivalents, Taxable Investments, Retirement Investments, Real Estate</li>
+              <li>Add Snapshot modal for monthly data entry</li>
+              <li>Net Worth Over Time line chart and Allocation doughnut chart</li>
+              <li>Snapshot history table with delete support</li>
+              <li>Export to JSON and Paste/Import data</li>
+              <li>Data stored in browser localStorage — persists across visits until cache is cleared</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ADD SNAPSHOT MODAL -->
+  <div class="modal-overlay" id="addSnapshotModal" style="display:none" onclick="closeModalOnOverlay(event,'addSnapshotModal')">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Add Snapshot</h2>
+        <p>Record your net worth for a specific month.</p>
+        <button class="modal-close" onclick="closeModal('addSnapshotModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="month" id="snapshotDate" class="form-input date-input">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Cash Equivalents</label>
+            <input type="number" id="snapshotCash" class="form-input" placeholder="0" min="0">
+          </div>
+          <div class="form-group">
+            <label>Taxable Investments</label>
+            <input type="number" id="snapshotTaxable" class="form-input" placeholder="0" min="0">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Retirement Investments</label>
+            <input type="number" id="snapshotRetirement" class="form-input" placeholder="0" min="0">
+          </div>
+          <div class="form-group">
+            <label>Real Estate</label>
+            <input type="number" id="snapshotRealEstate" class="form-input" placeholder="0" min="0">
+          </div>
+        </div>
+        <button class="btn-save" onclick="saveSnapshot()">Save Snapshot</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPORT DATA MODAL -->
+  <div class="modal-overlay" id="pasteDataModal" style="display:none" onclick="closeModalOnOverlay(event,'pasteDataModal')">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Import Data</h2>
+        <p>Upload an Excel (.xlsx) file formatted like the template to import your snapshots.</p>
+        <button class="modal-close" onclick="closeModal('pasteDataModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Excel File (.xlsx)</label>
+          <input type="file" id="pasteDataInput" class="form-input" accept=".xlsx,.xls">
+        </div>
+        <button class="btn-save" onclick="importData()">Import Data</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INACTIVITY WARNING MODAL -->
+  <div class="modal-overlay" id="inactivityModal" style="display:none">
+    <div class="modal inactivity-modal">
+      <div class="modal-header">
+        <div class="inactivity-icon">&#x26A0;&#xFE0F;</div>
+        <h2>Are you still there?</h2>
+        <p>You've been inactive for 30 seconds. Your data is stored only in this browser — it will be lost if you clear your cache, use a different browser, or switch devices.</p>
+      </div>
+      <div class="modal-body">
+        <div class="inactivity-tip">
+          Export your data now to save a backup you can re-import here anytime.
+        </div>
+        <button class="btn-save" onclick="exportAndDismiss()">&#x2B06; Export Data Now</button>
+        <button class="btn-dismiss" onclick="dismissInactivity()">I understand, continue</button>
+        <div class="inactivity-account-hint">
+          Want to keep your data across any device or browser?
+          <a href="#" onclick="openAuthModal(); return false;">Create a free account &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREATE ACCOUNT MODAL -->
+  <div class="modal-overlay" id="authModal" style="display:none" onclick="closeModalOnOverlay(event,'authModal')">
+    <div class="modal auth-modal">
+      <div class="modal-header">
+        <h2>Create Account</h2>
+        <p>Save your net worth data securely and access it from any device.</p>
+        <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- OAuth buttons -->
+        <button class="oauth-btn google-btn" onclick="oauthSignIn('Google')">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <button class="oauth-btn apple-btn" onclick="oauthSignIn('Apple')">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+            <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.3.07 2.18.71 2.9.68.98-.05 1.9-.77 3.03-.68 1.36.1 2.36.65 2.98 1.65-2.71 1.7-2.34 5.5.46 6.75-.74 2.07-1.7 4.1-3.37 4.48zM13 7.29c-.34-2.24 1.7-4.21 3.5-4.29.3 2.34-1.71 4.26-3.5 4.29z"/>
+          </svg>
+          Continue with Apple
+        </button>
+
+        <button class="oauth-btn x-btn" onclick="oauthSignIn('X')">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.776-8.906L1.254 2.25H8.08l4.261 5.635 5.902-5.635zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          Continue with X
+        </button>
+
+        <div class="or-divider"><span>or continue with email</span></div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="authEmail" class="form-input" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="authPassword" class="form-input" placeholder="Create a password" autocomplete="new-password">
+        </div>
+        <button class="btn-save" onclick="createAccount()">Create Account</button>
+        <div class="auth-footer-link">Already have an account? <a href="#" onclick="openSignIn(); return false;">Sign in</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRINT REPORT (hidden on screen, rendered before window.print()) -->
+  <div class="print-report" id="printReport"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
