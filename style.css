@@ -568,27 +568,37 @@ textarea.form-input { resize: vertical; min-height: 120px; }
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     /* PURE BLACK: All text uses #000000 for reliable printer output */
     color: #000000;
+    /* BOLD: All text bold for maximum visibility on monochrome printers */
+    font-weight: 700;
+    line-height: 1.5;
   }
 
   /* Header — Pure black design for maximum clarity */
   .pr-header {
     text-align: center;
-    margin-bottom: 18px;
-    padding-bottom: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
     /* PURE BLACK: Border is pure black for crisp, reliable printing */
-    border-bottom: 2px solid #000000;
+    /* BOLD BORDERS: 2px border for prominent definition on monochrome printers */
+    border-bottom: 3px solid #000000;
   }
   .pr-header h1 {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 3px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     /* PURE BLACK: All headers rendered in pure black (#000000) */
     color: #000000;
+    /* BOLD: Extra-bold header for maximum prominence */
+    font-weight: 900;
   }
   /* PURE BLACK: Date text also pure black for consistency */
-  .pr-header .pr-date { font-size: 11px; color: #000000; }
+  .pr-header .pr-date { 
+    font-size: 12px;
+    font-weight: 700;
+    color: #000000;
+  }
 
   /* KPI grid — High contrast with pure black text */
   .pr-kpi-grid {
@@ -599,51 +609,60 @@ textarea.form-input { resize: vertical; min-height: 120px; }
   }
   .pr-kpi {
     /* PURE BLACK: Borders are pure black for definition */
-    border: 1px solid #000000;
+    /* BOLD BORDERS: 2px border for prominent definition on monochrome printers */
+    border: 2px solid #000000;
     border-radius: 5px;
-    padding: 8px 10px;
+    padding: 12px 14px;
     text-align: center;
     /* White background provides contrast with pure black text */
     background: #ffffff;
   }
   .pr-kpi-label {
-    font-size: 8px;
+    font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     /* PURE BLACK: All labels rendered in pure black */
     color: #000000;
-    margin-bottom: 4px;
+    /* BOLD: Labels bold for visibility */
+    font-weight: 700;
+    margin-bottom: 6px;
   }
   /* PURE BLACK: All values are pure black for maximum legibility */
   .pr-kpi-value { 
-    font-size: 13px; 
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 900;
     color: #000000;
+    line-height: 1.3;
   }
   /* PURE BLACK: All indicators use pure black (#000000) */
   .pr-kpi-change { 
-    font-size: 10px; 
-    margin-top: 3px;
+    font-size: 11px;
+    margin-top: 4px;
     color: #000000;
+    /* BOLD: Change indicators bold for visibility */
+    font-weight: 700;
   }
 
   /* Charts — Pure black for all elements */
   .pr-chart-box {
     /* PURE BLACK: Chart borders are pure black */
-    border: 1px solid #000000;
+    /* BOLD BORDERS: 2px border for prominent definition on monochrome printers */
+    border: 2px solid #000000;
     border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 14px;
+    padding: 12px;
+    margin-bottom: 16px;
     /* White background for contrast */
     background: #ffffff;
   }
   .pr-chart-box h4 {
-    font-size: 9px;
+    font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     /* PURE BLACK: Chart headings are pure black */
     color: #000000;
+    /* BOLD: Section headings bold for prominence */
+    font-weight: 700;
   }
   /* PURE BLACK: Chart images render with pure black axes and text */
   .pr-chart-full img { 
@@ -654,37 +673,45 @@ textarea.form-input { resize: vertical; min-height: 120px; }
 
   /* History table — Pure black text and borders */
   .pr-history h4 {
-    font-size: 9px;
+    font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     /* PURE BLACK: History section heading */
     color: #000000;
+    /* BOLD: Section heading bold for visibility */
+    font-weight: 700;
   }
   .pr-history-table { 
     width: 100%; 
     border-collapse: collapse; 
-    font-size: 10px;
+    font-size: 11px;
+    line-height: 1.6;
   }
   .pr-history-table th {
     /* Light background for visual distinction */
     background: #ffffff;
-    padding: 5px 7px;
+    padding: 8px 10px;
     text-align: left;
-    font-size: 9px;
+    font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.3px;
     /* PURE BLACK: Table header text is pure black */
     color: #000000;
-    /* PURE BLACK: Table borders are pure black for definition */
-    border: 1px solid #000000;
+    /* BOLD BORDERS: 2px border for prominent definition on monochrome printers */
+    border: 2px solid #000000;
+    /* BOLD: Header text bold for prominence */
+    font-weight: 700;
   }
   .pr-history-table td { 
-    padding: 5px 7px; 
+    padding: 8px 10px;
     /* PURE BLACK: All table borders are pure black */
+    /* BOLD BORDERS: 2px border for prominent definition on monochrome printers */
     border: 1px solid #000000;
     /* PURE BLACK: All table data text is pure black */
     color: #000000;
+    /* BOLD: Table data bold for visibility */
+    font-weight: 700;
   }
   /* White rows for contrast */
   .pr-history-table tr:nth-child(even) td { background: #ffffff; }
