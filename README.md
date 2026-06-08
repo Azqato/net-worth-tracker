@@ -1,46 +1,117 @@
 # Net Worth Tracker
 
-**[Live App → https://azqato.github.io/Net-Worth-Tracker/](https://azqato.github.io/Net-Worth-Tracker/)**
+A browser-based personal finance tool for tracking monthly net worth across four asset categories — no account required, no data sent anywhere.
 
-A personal net worth tracker that runs entirely in your browser — no account required, no data sent anywhere. Track your wealth across four categories over time with charts, month-over-month comparisons, and Excel import/export.
+**Live site**: [https://azqato.github.io/Net-Worth-Tracker/](https://azqato.github.io/Net-Worth-Tracker/)
 
 ---
 
-## Features
-
-- **Monthly snapshots** — record your net worth each month across four categories
-- **Net Worth Over Time** — line chart showing total and category trends
-- **Allocation chart** — doughnut chart with live percentage labels
-- **Month-over-month (MoM)** — percentage change badges on every card
-- **Excel export** — download your data as a `.xlsx` file
-- **Excel import** — load data from the provided template
-- **Print report** — clean letter-portrait PDF with charts and snapshot history
-- **100% client-side** — all data lives in your browser's localStorage
-- **Landing page & guide** — step-by-step setup, import, and export tutorials
-- **Emoji favicon** — 💰 money bag icon in browser tabs and bookmarks
-
-## Categories
-
-| Category | Includes |
-|---|---|
-| Cash Equivalents | Checking, savings, money market, CDs |
-| Taxable Investments | Brokerage accounts, stocks, ETFs, mutual funds |
-| Retirement Investments | 401k, IRA, Roth IRA, pension |
-| Real Estate | Primary home, investment properties (market value) |
-
-## Usage
-
-Visit the [landing page](https://azqato.github.io/Net-Worth-Tracker/) for a step-by-step guide, then open the [app](https://azqato.github.io/Net-Worth-Tracker/app.html) and click **Add Snapshot** to record your first month.
-
-To import historical data, click **Template** to download a pre-formatted Excel file, fill it in, then use **Import Data** to load it.
-
-## Data & Privacy
-
-All data is stored in your browser's `localStorage`. Nothing is sent to a server. Clearing your browser cache will erase your data — use **Export** regularly to keep a backup.
-
 ## Tech Stack
 
-- Vanilla HTML / CSS / JavaScript
-- [Chart.js](https://www.chartjs.org/) for charts
-- [SheetJS](https://sheetjs.com/) for Excel import/export
-- Hosted on GitHub Pages
+| Technology | Version | Purpose |
+|---|---|---|
+| HTML5 | — | Markup (`index.html`, `app.html`) |
+| CSS3 | — | Styling with custom properties, grid, flexbox (`style.css`) |
+| Vanilla JavaScript | ES2020+ | All application logic (`app.js`) |
+| Chart.js | 4.4.0 | Line chart and doughnut chart (jsDelivr CDN) |
+| SheetJS (xlsx) | 0.20.1 | Excel `.xlsx` import and export (SheetJS CDN) |
+| GitHub Pages | — | Static hosting |
+
+No build step. No bundler. No framework. No Node.js in production.
+
+---
+
+## Prerequisites
+
+- A web browser (Chrome 80+, Firefox 79+, Safari 14+, Edge 80+) — required to run the app locally
+- Git — required to clone and contribute
+- No Node.js, npm, or other runtime required
+
+---
+
+## Installation
+
+```bash
+git clone https://github.com/Azqato/Net-Worth-Tracker.git
+cd Net-Worth-Tracker
+```
+
+That's it. There are no dependencies to install.
+
+---
+
+## Running Locally
+
+Open `index.html` directly in a browser:
+
+```bash
+# macOS / Linux
+open index.html
+
+# Windows
+start index.html
+```
+
+Or serve with any static file server to avoid browser restrictions on local file access:
+
+```bash
+# Python 3
+python -m http.server 8080
+
+# Node.js (npx, no install required)
+npx serve .
+```
+
+Then open [http://localhost:8080](http://localhost:8080) in your browser.
+
+Default app URL when served: `http://localhost:8080/app.html`
+
+---
+
+## Environment Variables
+
+None. This is a fully static application with no server-side configuration.
+
+No `.env` file is needed. No secrets are used. No API keys are required.
+
+---
+
+## Build
+
+There is no build step. The source files are the production files.
+
+---
+
+## Deploy
+
+Deployment is automatic via GitHub Pages.
+
+1. Push changes to the `main` branch:
+   ```bash
+   git push origin main
+   ```
+2. GitHub Actions builds and publishes Pages from the repo root.
+3. The live site updates at [https://azqato.github.io/Net-Worth-Tracker/](https://azqato.github.io/Net-Worth-Tracker/) within ~30 seconds.
+
+No manual deploy steps. No staging environment. No build artifacts to upload.
+
+**Pages configuration**: Settings → Pages → Source: Deploy from branch `main`, folder `/` (root).
+
+---
+
+## Full Documentation
+
+See the [`/docs`](docs/) directory:
+
+| File | Contents |
+|---|---|
+| [PRD.md](docs/PRD.md) | Product requirements, user stories, feature list |
+| [TRD.md](docs/TRD.md) | Architecture, data models, internal data flow |
+| [DESIGN.md](docs/DESIGN.md) | Color palette, typography, component patterns |
+| [PATCHNOTES.md](docs/PATCHNOTES.md) | Full version history |
+| [PRFAQ.md](docs/PRFAQ.md) | Press release and FAQ |
+| [TENETS.md](docs/TENETS.md) | Product principles |
+| [METRICS.md](docs/METRICS.md) | Success metrics and targets |
+| [ROADMAP.md](docs/ROADMAP.md) | Milestones and planned features |
+| [SECURITY.md](docs/SECURITY.md) | Security posture and data handling |
+| [RUNBOOK.md](docs/RUNBOOK.md) | Local setup, deploy, rollback, common errors |
