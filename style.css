@@ -739,3 +739,9 @@ textarea.form-input { resize: vertical; min-height: 120px; }
   display: inline-flex;
   align-items: center;
 }
+
+/* ── NAV ACTIVE STATE ── */
+.btn-nav-active {
+  color: var(--accent);
+  border-color: var(--accent);
+}
