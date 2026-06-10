@@ -2,7 +2,7 @@
 
 A browser-based personal finance tool for tracking monthly net worth across four asset categories — no account required, no data sent anywhere.
 
-**Live site**: [https://azqato.github.io/Net-Worth-Tracker/](https://azqato.github.io/Net-Worth-Tracker/)
+**Live site**: [https://azqato.github.io/net-worth-tracker/](https://azqato.github.io/net-worth-tracker/)
 
 ---
 
@@ -32,8 +32,8 @@ No build step. No bundler. No framework. No Node.js in production.
 ## Installation
 
 ```bash
-git clone https://github.com/Azqato/Net-Worth-Tracker.git
-cd Net-Worth-Tracker
+git clone https://github.com/Azqato/net-worth-tracker.git
+cd net-worth-tracker
 ```
 
 That's it. There are no dependencies to install.
@@ -91,7 +91,7 @@ Deployment is automatic via GitHub Pages.
    git push origin main
    ```
 2. GitHub Actions builds and publishes Pages from the repo root.
-3. The live site updates at [https://azqato.github.io/Net-Worth-Tracker/](https://azqato.github.io/Net-Worth-Tracker/) within ~30 seconds.
+3. The live site updates at [https://azqato.github.io/net-worth-tracker/](https://azqato.github.io/net-worth-tracker/) within ~30 seconds.
 
 No manual deploy steps. No staging environment. No build artifacts to upload.
 

@@ -3,7 +3,7 @@
 ## System Architecture
 
 **Type**: Static web app — no server, no backend, no API calls for user data.  
-**Deployment**: GitHub Pages (`Azqato/Net-Worth-Tracker`, `main` branch). Files served directly from the repo root.  
+**Deployment**: GitHub Pages (`Azqato/net-worth-tracker`, `main` branch). Files served directly from the repo root.  
 **Data persistence**: Browser `localStorage` only, scoped to the origin and browser profile. Clearing browser cache removes all data.  
 **Build**: None. No bundler, no compiler, no transpiler. Every file ships as-is.
 
@@ -206,10 +206,10 @@ Supported: Chrome 80+, Firefox 79+, Safari 14+, Edge 80+.
 
 | Property | Value |
 |---|---|
-| Repository | `https://github.com/Azqato/Net-Worth-Tracker` |
+| Repository | `https://github.com/Azqato/net-worth-tracker` |
 | Branch | `main` |
 | Pages source | Repo root (`/`) |
-| Live URL | `https://azqato.github.io/Net-Worth-Tracker/` |
+| Live URL | `https://azqato.github.io/net-worth-tracker/` |
 | Entry point | `index.html` |
 
 Push to `main` → GitHub Actions builds Pages → live within ~30 seconds. No build command, no artifact to upload.

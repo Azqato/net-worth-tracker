@@ -4,6 +4,15 @@ All changes listed newest first.
 
 ---
 
+## v3.7 — 2026-06-09 — URL Lowercase Migration
+
+### Changed
+- Updated live site URL from `https://azqato.github.io/Net-Worth-Tracker/` to `https://azqato.github.io/net-worth-tracker/` across all documentation
+- Updated GitHub repository URL references from `Azqato/Net-Worth-Tracker` to `Azqato/net-worth-tracker` in README.md, RUNBOOK.md, and TRD.md
+- Updated `git clone` and `cd` command examples in README.md and RUNBOOK.md to reflect lowercase repo name
+
+---
+
 ## v3.6 — 2026-06-08 — Documentation Audit & Restructure
 
 ### Added

@@ -14,7 +14,7 @@ Unlike popular financial aggregators that require users to connect bank accounts
 
 "I never realized how much I'd grown my retirement account until I saw it charted over three years," said one early user. "And I didn't have to hand over my login credentials to anyone to see it."
 
-Net Worth Tracker is free to use at [https://azqato.github.io/Net-Worth-Tracker/](https://azqato.github.io/Net-Worth-Tracker/). It works in any modern browser on any device, and includes a step-by-step guide for first-time users.
+Net Worth Tracker is free to use at [https://azqato.github.io/net-worth-tracker/](https://azqato.github.io/net-worth-tracker/). It works in any modern browser on any device, and includes a step-by-step guide for first-time users.
 
 ---
 

@@ -14,8 +14,8 @@ Complete steps to run the project from a fresh machine.
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Azqato/Net-Worth-Tracker.git
-cd Net-Worth-Tracker
+git clone https://github.com/Azqato/net-worth-tracker.git
+cd net-worth-tracker
 
 # 2. Open in browser — option A: open the file directly
 open index.html          # macOS
@@ -51,7 +51,7 @@ The repository root is served directly by GitHub Pages. What you see in the repo
    git push origin main
    ```
 3. GitHub Actions automatically builds and publishes Pages.
-4. The live site at [https://azqato.github.io/Net-Worth-Tracker/](https://azqato.github.io/Net-Worth-Tracker/) updates within ~30 seconds.
+4. The live site at [https://azqato.github.io/net-worth-tracker/](https://azqato.github.io/net-worth-tracker/) updates within ~30 seconds.
 
 No manual deploy steps. No artifact upload. No environment variables to set.
 
@@ -64,7 +64,7 @@ No manual deploy steps. No artifact upload. No environment variables to set.
 
 After pushing, check:
 1. GitHub → Actions tab — confirm the Pages deploy workflow shows a green checkmark.
-2. Open [https://azqato.github.io/Net-Worth-Tracker/](https://azqato.github.io/Net-Worth-Tracker/) in an incognito window and verify the landing page loads.
+2. Open [https://azqato.github.io/net-worth-tracker/](https://azqato.github.io/net-worth-tracker/) in an incognito window and verify the landing page loads.
 3. Navigate to `app.html` and confirm the app loads with no console errors.
 
 ---
@@ -98,7 +98,7 @@ Prefer `git revert` over `git reset --hard` to preserve history. GitHub Pages wi
 
 | Environment | URL | Branch | Notes |
 |---|---|---|---|
-| Production | `https://azqato.github.io/Net-Worth-Tracker/` | `main` | Auto-deploys on push |
+| Production | `https://azqato.github.io/net-worth-tracker/` | `main` | Auto-deploys on push |
 | Local development | `http://localhost:8080` (or file://) | any branch | No build step; open files directly |
 
 There is no staging environment. Test changes locally before pushing to `main`.
@@ -126,7 +126,7 @@ This is a static site with no server-side infrastructure to monitor. The relevan
 
 | What to check | Where | How often |
 |---|---|---|
-| Site availability | Open [https://azqato.github.io/Net-Worth-Tracker/](https://azqato.github.io/Net-Worth-Tracker/) in browser | On each deploy; after any reported issue |
+| Site availability | Open [https://azqato.github.io/net-worth-tracker/](https://azqato.github.io/net-worth-tracker/) in browser | On each deploy; after any reported issue |
 | GitHub Pages build status | GitHub → Repository → Actions tab | On each deploy |
 | JavaScript errors | Chrome DevTools → Console (clean session, no extensions) | On each deploy |
 | CDN availability — Chart.js | [jsDelivr status page](https://www.jsdelivr.com/statistics) | On any chart-related bug report |
